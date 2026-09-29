@@ -425,13 +425,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 const matchesStatus =
-                    selectedStatus === "All" ||
+                    selectedStatus === "all" ||
                     task.status ===
                     selectedStatus;
 
 
                 const matchesPriority =
-                    selectedPriority === "All" ||
+                    selectedPriority === "all" ||
                     task.priority ===
                     selectedPriority;
 
