@@ -572,55 +572,217 @@ body {
    TASK CARD 
 ========================================= */ 
  
-.task-card { 
-    position: relative; 
- 
-    display: flex; 
-    align-items: flex-start; 
- 
-    gap: 18px; 
- 
-    padding: 23px 24px 23px 28px; 
- 
-    background: var(--white); 
- 
-    border: 1px solid var(--border); 
- 
-    border-radius: 20px; 
- 
-    box-shadow: var(--shadow); 
- 
-    overflow: hidden; 
- 
-    transition: all 0.25s ease; 
-} 
- 
- 
-/* Teal left accent */ 
- 
-.task-card::before { 
-    content: ""; 
- 
-    position: absolute; 
- 
-    top: 0; 
-    left: 0; 
- 
-    width: 5px; 
-    height: 100%; 
- 
-    background: var(--primary); 
-} 
- 
-.task-card:hover { 
-    transform: translateY(-2px); 
- 
-    box-shadow: var(--shadow-hover); 
- 
-    border-color: #BFEDE7; 
-} 
- 
- 
+/* =========================================
+   TASK CARD
+========================================= */
+
+.task-card {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 22px 24px 20px 28px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.task-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--primary);
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    border-color: #BFEDE7;
+}
+
+.task-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+}
+
+.task-card-top > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-card h3 {
+    margin: 0 0 7px;
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.task-card p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text);
+}
+
+.delete-task {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 17px;
+    transition: all 0.25s ease;
+}
+
+.delete-task:hover {
+    background: #FEF2F2;
+    border-color: #FECACA;
+    transform: translateY(-2px);
+}
+
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.priority-badge,
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.priority-badge.high {
+    background: #FEE2E2;
+    color: #B91C1C;
+}
+
+.priority-badge.medium {
+    background: #FEF3C7;
+    color: #B45309;
+}
+
+.priority-badge.low {
+    background: #E0F2FE;
+    color: #0369A1;
+}
+
+.status-badge.pending {
+    background: #FEF3C7;
+    color: #B45309;
+}
+
+.status-badge.progress {
+    background: #E0F2FE;
+    color: #0369A1;
+}
+
+.status-badge.completed {
+    background: #D1FAE5;
+    color: #047857;
+}
+
+.task-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 18px;
+    width: 100%;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.task-footer > span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.task-footer .task-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.task-footer .task-actions button {
+    width: auto;
+    min-width: 105px;
+    height: 38px;
+    padding: 0 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    transition: all 0.25s ease;
+}
+
+.task-footer .complete-task:hover,
+.task-footer .edit-task:hover {
+    background: var(--light-pink);
+    border-color: #99F6E4;
+    color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.task-card.completed-task {
+    opacity: 0.65;
+}
+
+.task-card.completed-task h3 {
+    text-decoration: line-through;
+}
+
+@media (max-width: 600px) {
+    .task-card {
+        padding: 18px 16px 18px 21px;
+    }
+
+    .task-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .task-footer .task-actions {
+        width: 100%;
+    }
+
+    .task-footer .task-actions button {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
 /* ========================================= 
    CHECKBOX 
 ========================================= */ 
