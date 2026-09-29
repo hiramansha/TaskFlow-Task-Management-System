@@ -17,23 +17,26 @@ document.addEventListener("DOMContentLoaded", () => {
     // ELEMENTS
     // =========================
 
-    const openModalBtn =
-        document.getElementById("open-modal");
+    const taskList =
+        document.getElementById("task-list");
 
-    const modal =
+    const searchInput =
+        document.getElementById("search-input");
+
+    const statusFilter =
+        document.getElementById("status-filter");
+
+    const priorityFilter =
+        document.getElementById("priority-filter");
+
+    const taskModal =
         document.getElementById("task-modal");
-
-    const closeModalBtn =
-        document.getElementById("close-modal");
-
-    const cancelModalBtn =
-        document.getElementById("cancel-modal");
 
     const taskForm =
         document.getElementById("task-form");
 
-    const taskList =
-        document.querySelector(".task-list");
+    const modalTitle =
+        document.getElementById("modal-title");
 
     const taskTitle =
         document.getElementById("task-title");
@@ -44,211 +47,184 @@ document.addEventListener("DOMContentLoaded", () => {
     const taskPriority =
         document.getElementById("task-priority");
 
-    const taskDate =
-        document.getElementById("task-date");
+    const taskStatus =
+        document.getElementById("task-status");
 
-    const searchInput =
-        document.getElementById("task-search");
+    const taskDueDate =
+        document.getElementById("task-due-date");
 
-    const statusFilter =
-        document.getElementById("status-filter");
+    const addTaskBtn =
+        document.getElementById("add-task-btn");
 
-    const priorityFilter =
-        document.getElementById("priority-filter");
+    const closeModalBtn =
+        document.getElementById("close-modal");
 
+    const cancelBtn =
+        document.getElementById("cancel-btn");
 
-    // =========================
-    // SECTIONS
-    // =========================
-
-    const dashboardSection =
-        document.getElementById("dashboard-section");
-
-    const tasksSection =
-        document.getElementById("tasks-section");
-
-    const importantSection =
-        document.getElementById("important-section");
-
-    const completedSection =
-        document.getElementById("completed-section");
-
-    const settingsSection =
-        document.getElementById("settings-section");
-
-    const importantTaskList =
-        document.getElementById("important-task-list");
-
-    const completedTaskList =
-        document.getElementById("completed-task-list");
-
-    const pageTitle =
-        document.querySelector(".page-title");
-
-    const taskSectionTitle =
-        document.getElementById("task-section-title");
-
-
-    // =========================
-    // NAVIGATION
-    // =========================
+    const menuToggle =
+        document.querySelector(".menu-toggle");
 
     const navLinks =
-        document.querySelectorAll(".nav-link");
+        document.querySelector(".nav-links");
 
-    navLinks.forEach(link => {
-
-        link.addEventListener("click", event => {
-
-            const section =
-                link.dataset.section;
-
-            if (!section) {
-                return;
-            }
-
-            event.preventDefault();
-
-            navLinks.forEach(item => {
-                item.classList.remove("active");
-            });
-
-            link.classList.add("active");
-
-            showSection(section);
-
-        });
-
-    });
+    const themeToggle =
+        document.getElementById("theme-toggle");
 
 
     // =========================
     // SHOW SECTION
     // =========================
 
-    function showSection(section) {
+    function showSection(sectionName) {
 
-        if (dashboardSection) {
-            dashboardSection.style.display = "none";
-        }
+        document
+            .querySelectorAll(".page-section")
+            .forEach(section => {
 
-        if (tasksSection) {
-            tasksSection.style.display = "none";
-        }
+                section.classList.remove("active");
 
-        if (importantSection) {
-            importantSection.style.display = "none";
-        }
-
-        if (completedSection) {
-            completedSection.style.display = "none";
-        }
-
-        if (settingsSection) {
-            settingsSection.style.display = "none";
-        }
+            });
 
 
-        // DASHBOARD
+        const selectedSection =
+            document.getElementById(sectionName);
 
-        if (section === "dashboard") {
+        if (selectedSection) {
 
-            if (dashboardSection) {
-                dashboardSection.style.display = "block";
-            }
-
-            if (tasksSection) {
-                tasksSection.style.display = "block";
-            }
-
-            if (pageTitle) {
-                pageTitle.textContent =
-                    "Dashboard";
-            }
-
-            if (taskSectionTitle) {
-                taskSectionTitle.textContent =
-                    "My Tasks";
-            }
-
-            displayTasks(allTasks);
+            selectedSection.classList.add("active");
 
         }
 
 
-        // MY TASKS
+        document
+            .querySelectorAll(".nav-link")
+            .forEach(link => {
 
-        else if (section === "tasks") {
+                link.classList.remove("active");
 
-            if (tasksSection) {
-                tasksSection.style.display = "block";
+                if (
+                    link.dataset.section ===
+                    sectionName
+                ) {
+
+                    link.classList.add("active");
+
+                }
+
+            });
+
+    }
+
+
+    // =========================
+    // NAVIGATION
+    // =========================
+
+    document
+        .querySelectorAll(".nav-link")
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                event => {
+
+                    event.preventDefault();
+
+                    const section =
+                        link.dataset.section;
+
+                    if (section) {
+
+                        showSection(section);
+
+                    }
+
+                    if (navLinks) {
+
+                        navLinks.classList.remove(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        });
+
+
+    // =========================
+    // MOBILE MENU
+    // =========================
+
+    if (menuToggle) {
+
+        menuToggle.addEventListener(
+            "click",
+            () => {
+
+                navLinks?.classList.toggle(
+                    "active"
+                );
+
             }
+        );
 
-            if (pageTitle) {
-                pageTitle.textContent =
-                    "My Tasks";
-            }
+    }
 
-            if (taskSectionTitle) {
-                taskSectionTitle.textContent =
-                    "All Tasks";
-            }
 
-            displayTasks(allTasks);
+    // =========================
+    // THEME
+    // =========================
+
+    function applyTheme(theme) {
+
+        if (theme === "dark") {
+
+            document.body.classList.add("dark-mode");
+
+        } else {
+
+            document.body.classList.remove(
+                "dark-mode"
+            );
 
         }
 
+    }
 
-        // IMPORTANT
 
-        else if (section === "important") {
+    const savedTheme =
+        localStorage.getItem("theme") ||
+        "light";
 
-            if (importantSection) {
-                importantSection.style.display = "block";
+    applyTheme(savedTheme);
+
+
+    if (themeToggle) {
+
+        themeToggle.addEventListener(
+            "click",
+            () => {
+
+                const isDark =
+                    document.body.classList.contains(
+                        "dark-mode"
+                    );
+
+                const newTheme =
+                    isDark ? "light" : "dark";
+
+                applyTheme(newTheme);
+
+                localStorage.setItem(
+                    "theme",
+                    newTheme
+                );
+
             }
-
-            if (pageTitle) {
-                pageTitle.textContent =
-                    "Important Tasks";
-            }
-
-            displayImportantTasks();
-
-        }
-
-
-        // COMPLETED
-
-        else if (section === "completed") {
-
-            if (completedSection) {
-                completedSection.style.display = "block";
-            }
-
-            if (pageTitle) {
-                pageTitle.textContent =
-                    "Completed Tasks";
-            }
-
-            displayCompletedTasks();
-
-        }
-
-
-        // SETTINGS
-
-        else if (section === "settings") {
-
-            if (settingsSection) {
-                settingsSection.style.display = "block";
-            }
-
-            if (pageTitle) {
-                pageTitle.textContent =
-                    "Settings";
-            }
-
-        }
+        );
 
     }
 
@@ -273,11 +249,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         },
 
                         body: JSON.stringify({
+
                             email:
-                                "hira@taskflow.com",
+                                "hira-test@taskflow.com",
 
                             password:
                                 "123456"
+
                         })
                     }
                 );
@@ -309,6 +287,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     data.message
                 );
 
+                alert(
+                    data.message ||
+                    "Login failed."
+                );
+
             }
 
         } catch (error) {
@@ -334,6 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
             await loginUser();
 
             return;
+
         }
 
 
@@ -346,8 +330,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         method: "GET",
 
                         headers: {
+
+                            "Content-Type":
+                                "application/json",
+
                             "Authorization":
                                 `Bearer ${token}`
+
                         }
                     }
                 );
@@ -357,10 +346,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 await response.json();
 
 
-            if (!data.success) {
+            if (
+                response.status === 401 ||
+                !data.success
+            ) {
 
-                console.error(
-                    data.message
+                console.log(
+                    "Unauthorized. Logging in again."
                 );
 
                 localStorage.removeItem(
@@ -372,6 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 await loginUser();
 
                 return;
+
             }
 
 
@@ -379,18 +372,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 data.tasks || [];
 
 
-            displayTasks(allTasks);
+            renderTasks();
 
-            displayImportantTasks();
-
-            displayCompletedTasks();
-
-            updateStatistics();
+            updateStats();
 
         } catch (error) {
 
             console.error(
-                "Failed to load tasks:",
+                "Load tasks error:",
                 error
             );
 
@@ -400,496 +389,327 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // ESCAPE HTML
+    // RENDER TASKS
     // =========================
 
-    function escapeHTML(text) {
+    function renderTasks() {
 
-        if (!text) {
-            return "";
+        if (!taskList) return;
+
+
+        const searchValue =
+            searchInput?.value
+                .toLowerCase()
+                .trim() || "";
+
+
+        const selectedStatus =
+            statusFilter?.value || "All";
+
+
+        const selectedPriority =
+            priorityFilter?.value || "All";
+
+
+        let filteredTasks =
+            allTasks.filter(task => {
+
+                const matchesSearch =
+                    task.title
+                        .toLowerCase()
+                        .includes(searchValue) ||
+
+                    (task.description || "")
+                        .toLowerCase()
+                        .includes(searchValue);
+
+
+                const matchesStatus =
+                    selectedStatus === "All" ||
+                    task.status ===
+                    selectedStatus;
+
+
+                const matchesPriority =
+                    selectedPriority === "All" ||
+                    task.priority ===
+                    selectedPriority;
+
+
+                return (
+                    matchesSearch &&
+                    matchesStatus &&
+                    matchesPriority
+                );
+
+            });
+
+
+        if (filteredTasks.length === 0) {
+
+            taskList.innerHTML = `
+                <div class="empty-state">
+                    <h3>No tasks found</h3>
+                    <p>
+                        Add a new task or change your filters.
+                    </p>
+                </div>
+            `;
+
+            return;
+
         }
 
-        return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+
+        taskList.innerHTML =
+            filteredTasks
+                .map(task =>
+                    createTaskHTML(task)
+                )
+                .join("");
+
+
+        attachTaskEvents();
 
     }
 
 
     // =========================
-    // CREATE TASK CARD
+    // CREATE TASK HTML
     // =========================
 
-    function createTaskCard(task) {
+    function createTaskHTML(task) {
 
-        const taskCard =
-            document.createElement("div");
-
-        taskCard.className =
-            "task-card";
-
-        taskCard.dataset.id =
-            task._id;
-
-        taskCard.dataset.status =
-            task.status || "Pending";
-
-        taskCard.dataset.dueDate =
-            task.dueDate || "";
-
-        taskCard.dataset.priority =
-            task.priority || "Medium";
-
-
-        const formattedDate =
+        const dueDate =
             task.dueDate
-                ? new Date(
-                    task.dueDate
-                ).toLocaleDateString(
-                    "en-US",
-                    {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                    }
-                )
+                ? new Date(task.dueDate)
+                    .toLocaleDateString()
                 : "No due date";
 
 
-        const priority =
-            task.priority || "Medium";
+        return `
+            <div
+                class="task-card"
+                data-id="${task._id}"
+            >
 
-        const status =
-            task.status || "Pending";
+                <div class="task-card-top">
 
+                    <div>
 
-        let statusClass =
-            "pending";
+                        <h3>
+                            ${escapeHTML(task.title)}
+                        </h3>
 
+                        <p>
+                            ${
+                                escapeHTML(
+                                    task.description || ""
+                                )
+                            }
+                        </p>
 
-        if (status === "Completed") {
+                    </div>
 
-            statusClass =
-                "completed";
-
-        }
-
-        else if (status === "In Progress") {
-
-            statusClass =
-                "progress";
-
-        }
-
-
-        taskCard.innerHTML = `
-
-            <div class="task-check">
-
-                <input
-                    type="checkbox"
-                    ${status === "Completed"
-                        ? "checked"
-                        : ""}
-                >
-
-            </div>
-
-
-            <div class="task-content">
-
-                <div class="task-top">
-
-                    <h3>
-                        ${escapeHTML(task.title)}
-                    </h3>
-
-                    <span
-                        class="priority ${priority.toLowerCase()}"
+                    <button
+                        class="delete-task"
+                        data-id="${task._id}"
+                        title="Delete task"
                     >
-                        ${priority}
-                    </span>
+                        🗑️
+                    </button>
 
                 </div>
-
-
-                <p>
-                    ${
-                        escapeHTML(
-                            task.description
-                        ) ||
-                        "No description provided."
-                    }
-                </p>
 
 
                 <div class="task-meta">
 
-                    <span>
-                        📅 ${formattedDate}
+                    <span class="priority-badge ${getPriorityClass(task.priority)}">
+                        ${task.priority}
                     </span>
 
-                    <span
-                        class="status ${statusClass}"
-                    >
-                        ${status}
+                    <span class="status-badge ${getStatusClass(task.status)}">
+                        ${task.status}
                     </span>
 
                 </div>
 
+
+                <div class="task-footer">
+
+                    <span>
+                        📅 ${dueDate}
+                    </span>
+
+                    <div class="task-actions">
+
+                        <button
+                            class="complete-task"
+                            data-id="${task._id}"
+                        >
+                            ${
+                                task.status ===
+                                "Completed"
+                                    ? "↩️ Reopen"
+                                    : "✓ Complete"
+                            }
+                        </button>
+
+                        <button
+                            class="edit-task"
+                            data-id="${task._id}"
+                        >
+                            ✏️ Edit
+                        </button>
+
+                    </div>
+
+                </div>
+
             </div>
-
-
-            <div class="task-actions">
-
-                <button
-                    class="edit-btn"
-                    title="Edit Task"
-                    type="button"
-                >
-                    ✏️
-                </button>
-
-
-                <button
-                    class="delete-btn"
-                    title="Delete Task"
-                    type="button"
-                >
-                    🗑️
-                </button>
-
-            </div>
-
         `;
 
+    }
+
+
+    // =========================
+    // ESCAPE HTML
+    // =========================
+
+    function escapeHTML(value) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            value;
+
+        return div.innerHTML;
+
+    }
+
+
+    // =========================
+    // PRIORITY CLASS
+    // =========================
+
+    function getPriorityClass(priority) {
+
+        if (priority === "High") {
+
+            return "priority-high";
+
+        }
+
+        if (priority === "Medium") {
+
+            return "priority-medium";
+
+        }
+
+        return "priority-low";
+
+    }
+
+
+    // =========================
+    // STATUS CLASS
+    // =========================
+
+    function getStatusClass(status) {
 
         if (status === "Completed") {
 
-            taskCard.classList.add(
-                "completed-task"
-            );
+            return "status-completed";
 
         }
 
+        if (status === "In Progress") {
 
-        return taskCard;
+            return "status-progress";
+
+        }
+
+        return "status-pending";
 
     }
 
 
     // =========================
-    // DISPLAY MAIN TASKS
+    // ATTACH TASK EVENTS
     // =========================
 
-    function displayTasks(tasks) {
+    function attachTaskEvents() {
 
-        if (!taskList) {
-            return;
-        }
+        document
+            .querySelectorAll(".delete-task")
+            .forEach(button => {
 
+                button.addEventListener(
+                    "click",
+                    () => {
 
-        taskList.innerHTML = "";
+                        deleteTask(
+                            button.dataset.id
+                        );
 
+                    }
+                );
 
-        if (!tasks.length) {
-
-            taskList.innerHTML = `
-
-                <div class="empty-state">
-
-                    <h3>No tasks yet</h3>
-
-                    <p>
-                        Add your first task to get started.
-                    </p>
-
-                </div>
-
-            `;
-
-            updateStatistics();
-
-            return;
-        }
+            });
 
 
-        tasks.forEach(task => {
+        document
+            .querySelectorAll(".edit-task")
+            .forEach(button => {
 
-            taskList.appendChild(
-                createTaskCard(task)
-            );
+                button.addEventListener(
+                    "click",
+                    () => {
 
-        });
+                        openEditModal(
+                            button.dataset.id
+                        );
+
+                    }
+                );
+
+            });
 
 
-        updateStatistics();
+        document
+            .querySelectorAll(".complete-task")
+            .forEach(button => {
 
-        applyFilters();
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        toggleComplete(
+                            button.dataset.id
+                        );
+
+                    }
+                );
+
+            });
 
     }
 
 
     // =========================
-    // DISPLAY IMPORTANT TASKS
+    // OPEN ADD TASK MODAL
     // =========================
 
-    function displayImportantTasks() {
+    function openAddModal() {
 
-        if (!importantTaskList) {
-            return;
-        }
+        editingTask = null;
 
 
-        importantTaskList.innerHTML = "";
+        if (modalTitle) {
 
-
-        const importantTasks =
-            allTasks.filter(task =>
-                task.priority === "High"
-            );
-
-
-        if (!importantTasks.length) {
-
-            importantTaskList.innerHTML = `
-
-                <div class="empty-state">
-
-                    <h3>No important tasks</h3>
-
-                    <p>
-                        High priority tasks will appear here.
-                    </p>
-
-                </div>
-
-            `;
-
-            return;
-        }
-
-
-        importantTasks.forEach(task => {
-
-            importantTaskList.appendChild(
-                createTaskCard(task)
-            );
-
-        });
-
-    }
-
-
-    // =========================
-    // DISPLAY COMPLETED TASKS
-    // =========================
-
-    function displayCompletedTasks() {
-
-        if (!completedTaskList) {
-            return;
-        }
-
-
-        completedTaskList.innerHTML = "";
-
-
-        const completedTasks =
-            allTasks.filter(task =>
-                task.status === "Completed"
-            );
-
-
-        if (!completedTasks.length) {
-
-            completedTaskList.innerHTML = `
-
-                <div class="empty-state">
-
-                    <h3>No completed tasks</h3>
-
-                    <p>
-                        Completed tasks will appear here.
-                    </p>
-
-                </div>
-
-            `;
-
-            return;
-        }
-
-
-        completedTasks.forEach(task => {
-
-            completedTaskList.appendChild(
-                createTaskCard(task)
-            );
-
-        });
-
-    }
-
-
-    // =========================
-    // STATISTICS
-    // =========================
-
-    function updateStatistics() {
-
-        const total =
-            allTasks.length;
-
-
-        const pending =
-            allTasks.filter(
-                task =>
-                    task.status === "Pending"
-            ).length;
-
-
-        const progress =
-            allTasks.filter(
-                task =>
-                    task.status === "In Progress"
-            ).length;
-
-
-        const completed =
-            allTasks.filter(
-                task =>
-                    task.status === "Completed"
-            ).length;
-
-
-        const totalElement =
-            document.getElementById(
-                "total-tasks"
-            );
-
-        const pendingElement =
-            document.getElementById(
-                "pending-tasks"
-            );
-
-        const progressElement =
-            document.getElementById(
-                "progress-tasks"
-            );
-
-        const completedElement =
-            document.getElementById(
-                "completed-tasks"
-            );
-
-
-        if (totalElement) {
-            totalElement.textContent =
-                total;
-        }
-
-        if (pendingElement) {
-            pendingElement.textContent =
-                pending;
-        }
-
-        if (progressElement) {
-            progressElement.textContent =
-                progress;
-        }
-
-        if (completedElement) {
-            completedElement.textContent =
-                completed;
-        }
-
-    }
-
-
-    // =========================
-    // OPEN MODAL
-    // =========================
-
-    if (openModalBtn) {
-
-        openModalBtn.addEventListener(
-            "click",
-            () => {
-
-                editingTask = null;
-
-
-                if (taskForm) {
-                    taskForm.reset();
-                }
-
-
-                const modalTitle =
-                    document.getElementById(
-                        "modal-title"
-                    );
-
-
-                const submitBtn =
-                    taskForm
-                        ? taskForm.querySelector(
-                            ".save-btn"
-                        )
-                        : null;
-
-
-                if (modalTitle) {
-
-                    modalTitle.textContent =
-                        "Add New Task";
-
-                }
-
-
-                if (submitBtn) {
-
-                    submitBtn.textContent =
-                        "Add Task";
-
-                }
-
-
-                if (modal) {
-
-                    modal.classList.add(
-                        "show"
-                    );
-
-                }
-
-
-                if (taskTitle) {
-
-                    taskTitle.focus();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // =========================
-    // CLOSE MODAL
-    // =========================
-
-    function closeModal() {
-
-        if (modal) {
-
-            modal.classList.remove(
-                "show"
-            );
+            modalTitle.textContent =
+                "Add New Task";
 
         }
 
@@ -901,40 +721,171 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        editingTask = null;
+        if (taskStatus) {
+
+            taskStatus.value =
+                "Pending";
+
+        }
 
 
-        const modalTitle =
-            document.getElementById(
-                "modal-title"
+        if (taskPriority) {
+
+            taskPriority.value =
+                "Medium";
+
+        }
+
+
+        taskModal?.classList.add(
+            "active"
+        );
+
+    }
+
+
+    // =========================
+    // OPEN EDIT MODAL
+    // =========================
+
+    function openEditModal(id) {
+
+        const task =
+            allTasks.find(
+                item =>
+                    item._id === id
             );
 
 
-        const submitBtn =
-            taskForm
-                ? taskForm.querySelector(
-                    ".save-btn"
-                )
-                : null;
+        if (!task) return;
+
+
+        editingTask =
+            task;
 
 
         if (modalTitle) {
 
             modalTitle.textContent =
-                "Add New Task";
+                "Edit Task";
 
         }
 
 
-        if (submitBtn) {
+        if (taskTitle) {
 
-            submitBtn.textContent =
-                "Add Task";
+            taskTitle.value =
+                task.title || "";
 
         }
+
+
+        if (taskDescription) {
+
+            taskDescription.value =
+                task.description || "";
+
+        }
+
+
+        if (taskPriority) {
+
+            taskPriority.value =
+                task.priority || "Medium";
+
+        }
+
+
+        if (taskStatus) {
+
+            taskStatus.value =
+                task.status || "Pending";
+
+        }
+
+
+        if (taskDueDate) {
+
+            taskDueDate.value =
+                task.dueDate
+                    ? formatDateForInput(
+                        task.dueDate
+                    )
+                    : "";
+
+        }
+
+
+        taskModal?.classList.add(
+            "active"
+        );
 
     }
 
+
+    // =========================
+    // FORMAT DATE
+    // =========================
+
+    function formatDateForInput(date) {
+
+        const d =
+            new Date(date);
+
+
+        const year =
+            d.getFullYear();
+
+
+        const month =
+            String(
+                d.getMonth() + 1
+            ).padStart(2, "0");
+
+
+        const day =
+            String(
+                d.getDate()
+            ).padStart(2, "0");
+
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+
+    // =========================
+    // CLOSE MODAL
+    // =========================
+
+    function closeModal() {
+
+        taskModal?.classList.remove(
+            "active"
+        );
+
+        editingTask = null;
+
+    }
+
+
+    // =========================
+    // ADD BUTTON
+    // =========================
+
+    if (addTaskBtn) {
+
+        addTaskBtn.addEventListener(
+            "click",
+            openAddModal
+        );
+
+    }
+
+
+    // =========================
+    // CLOSE BUTTON
+    // =========================
 
     if (closeModalBtn) {
 
@@ -946,9 +897,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    if (cancelModalBtn) {
+    if (cancelBtn) {
 
-        cancelModalBtn.addEventListener(
+        cancelBtn.addEventListener(
             "click",
             closeModal
         );
@@ -956,14 +907,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    if (modal) {
+    // =========================
+    // CLOSE ON OUTSIDE CLICK
+    // =========================
 
-        modal.addEventListener(
+    if (taskModal) {
+
+        taskModal.addEventListener(
             "click",
             event => {
 
                 if (
-                    event.target === modal
+                    event.target ===
+                    taskModal
                 ) {
 
                     closeModal();
@@ -977,7 +933,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // CREATE / UPDATE TASK
+    // SAVE TASK
     // =========================
 
     if (taskForm) {
@@ -989,41 +945,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.preventDefault();
 
 
-                if (
-                    !taskTitle ||
-                    !taskDescription ||
-                    !taskPriority ||
-                    !taskDate
-                ) {
-
-                    console.error(
-                        "Task form elements are missing."
-                    );
-
-                    return;
-
-                }
-
-
                 const title =
-                    taskTitle.value.trim();
+                    taskTitle?.value.trim();
 
 
                 const description =
-                    taskDescription.value.trim();
+                    taskDescription?.value.trim() ||
+                    "";
 
 
                 const priority =
-                    taskPriority.value
-                        .charAt(0)
-                        .toUpperCase() +
-                    taskPriority.value
-                        .slice(1)
-                        .toLowerCase();
+                    taskPriority?.value ||
+                    "Medium";
+
+
+                const status =
+                    taskStatus?.value ||
+                    "Pending";
 
 
                 const dueDate =
-                    taskDate.value;
+                    taskDueDate?.value ||
+                    null;
 
 
                 if (!title) {
@@ -1037,6 +980,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
+                if (!token) {
+
+                    await loginUser();
+
+                }
+
+
                 const taskData = {
 
                     title,
@@ -1045,16 +995,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     priority,
 
-                    status:
-                        editingTask
-                            ? (
-                                editingTask.dataset.status ||
-                                "Pending"
-                            )
-                            : "Pending",
+                    status,
 
-                    dueDate:
-                        dueDate || null
+                    dueDate
 
                 };
 
@@ -1064,60 +1007,57 @@ document.addEventListener("DOMContentLoaded", () => {
                     let response;
 
 
-                    // UPDATE
-
                     if (editingTask) {
-
-                        const taskId =
-                            editingTask.dataset.id;
-
 
                         response =
                             await fetch(
-                                `${API_URL}/api/tasks/${taskId}`,
+                                `${API_URL}/api/tasks/${editingTask._id}`,
                                 {
+
                                     method: "PUT",
 
                                     headers: {
+
                                         "Content-Type":
                                             "application/json",
 
                                         "Authorization":
                                             `Bearer ${token}`
+
                                     },
 
                                     body:
                                         JSON.stringify(
                                             taskData
                                         )
+
                                 }
                             );
 
-                    }
-
-
-                    // CREATE
-
-                    else {
+                    } else {
 
                         response =
                             await fetch(
                                 `${API_URL}/api/tasks`,
                                 {
+
                                     method: "POST",
 
                                     headers: {
+
                                         "Content-Type":
                                             "application/json",
 
                                         "Authorization":
                                             `Bearer ${token}`
+
                                     },
 
                                     body:
                                         JSON.stringify(
                                             taskData
                                         )
+
                                 }
                             );
 
@@ -1128,14 +1068,32 @@ document.addEventListener("DOMContentLoaded", () => {
                         await response.json();
 
 
-                    if (!data.success) {
+                    if (response.status === 401) {
 
-                        alert(
-                            data.message ||
-                            "Task operation failed."
+                        localStorage.removeItem(
+                            "taskflow_token"
                         );
 
+                        token = null;
+
+                        alert(
+                            "Session expired. Please try again."
+                        );
+
+                        await loginUser();
+
                         return;
+
+                    }
+
+
+                    if (!response.ok ||
+                        !data.success) {
+
+                        throw new Error(
+                            data.message ||
+                            "Unable to save task."
+                        );
 
                     }
 
@@ -1143,6 +1101,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     closeModal();
 
                     await loadTasks();
+
+
+                    alert(
+                        editingTask
+                            ? "Task updated successfully!"
+                            : "Task added successfully!"
+                    );
 
 
                 } catch (error) {
@@ -1153,6 +1118,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
                     alert(
+                        error.message ||
                         "Unable to save task."
                     );
 
@@ -1165,501 +1131,468 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // EDIT / DELETE / COMPLETE
+    // DELETE TASK
     // =========================
 
-    document.addEventListener(
-        "click",
-        async event => {
+    async function deleteTask(id) {
 
-            const editButton =
-                event.target.closest(
-                    ".edit-btn"
-                );
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this task?"
+            );
 
 
-            const deleteButton =
-                event.target.closest(
-                    ".delete-btn"
-                );
+        if (!confirmed) return;
 
 
-            // =========================
-            // EDIT
-            // =========================
+        try {
 
-            if (editButton) {
+            const response =
+                await fetch(
+                    `${API_URL}/api/tasks/${id}`,
+                    {
 
-                const card =
-                    editButton.closest(
-                        ".task-card"
-                    );
+                        method: "DELETE",
 
+                        headers: {
 
-                if (!card) {
-                    return;
-                }
+                            "Content-Type":
+                                "application/json",
 
-
-                const taskId =
-                    card.dataset.id;
-
-
-                const task =
-                    allTasks.find(
-                        item =>
-                            item._id === taskId
-                    );
-
-
-                if (!task) {
-                    return;
-                }
-
-
-                editingTask = card;
-
-
-                if (taskTitle) {
-
-                    taskTitle.value =
-                        task.title || "";
-
-                }
-
-
-                if (taskDescription) {
-
-                    taskDescription.value =
-                        task.description || "";
-
-                }
-
-
-                if (taskPriority) {
-
-                    taskPriority.value =
-                        task.priority || "Medium";
-
-                }
-
-
-                if (taskDate) {
-
-                    if (task.dueDate) {
-
-                        const date =
-                            new Date(
-                                task.dueDate
-                            );
-
-
-                        if (
-                            !isNaN(
-                                date.getTime()
-                            )
-                        ) {
-
-                            taskDate.value =
-                                date
-                                    .toISOString()
-                                    .split("T")[0];
+                            "Authorization":
+                                `Bearer ${token}`
 
                         }
 
                     }
-
-                    else {
-
-                        taskDate.value = "";
-
-                    }
-
-                }
+                );
 
 
-                const modalTitle =
-                    document.getElementById(
-                        "modal-title"
-                    );
+            const data =
+                await response.json();
 
 
-                const submitBtn =
-                    taskForm
-                        ? taskForm.querySelector(
-                            ".save-btn"
-                        )
-                        : null;
+            if (response.status === 401) {
 
+                localStorage.removeItem(
+                    "taskflow_token"
+                );
 
-                if (modalTitle) {
+                token = null;
 
-                    modalTitle.textContent =
-                        "Edit Task";
+                await loginUser();
 
-                }
-
-
-                if (submitBtn) {
-
-                    submitBtn.textContent =
-                        "Save Changes";
-
-                }
-
-
-                if (modal) {
-
-                    modal.classList.add(
-                        "show"
-                    );
-
-                }
-
-
-                if (taskTitle) {
-
-                    taskTitle.focus();
-
-                }
+                return;
 
             }
 
 
-            // =========================
-            // DELETE
-            // =========================
+            if (!response.ok ||
+                !data.success) {
 
-            if (deleteButton) {
-
-                const card =
-                    deleteButton.closest(
-                        ".task-card"
-                    );
-
-
-                if (!card) {
-                    return;
-                }
-
-
-                const taskId =
-                    card.dataset.id;
-
-
-                const task =
-                    allTasks.find(
-                        item =>
-                            item._id === taskId
-                    );
-
-
-                if (!task) {
-                    return;
-                }
-
-
-                const confirmDelete =
-                    confirm(
-                        `Delete "${task.title}"?`
-                    );
-
-
-                if (!confirmDelete) {
-                    return;
-                }
-
-
-                try {
-
-                    const response =
-                        await fetch(
-                            `${API_URL}/api/tasks/${taskId}`,
-                            {
-                                method: "DELETE",
-
-                                headers: {
-                                    "Authorization":
-                                        `Bearer ${token}`
-                                }
-                            }
-                        );
-
-
-                    const data =
-                        await response.json();
-
-
-                    if (!data.success) {
-
-                        alert(
-                            data.message ||
-                            "Unable to delete task."
-                        );
-
-                        return;
-
-                    }
-
-
-                    await loadTasks();
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Delete error:",
-                        error
-                    );
-
-                    alert(
-                        "Unable to delete task."
-                    );
-
-                }
+                throw new Error(
+                    data.message ||
+                    "Unable to delete task."
+                );
 
             }
+
+
+            await loadTasks();
+
+
+        } catch (error) {
+
+            console.error(
+                "Delete task error:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to delete task."
+            );
 
         }
-    );
+
+    }
 
 
     // =========================
-    // COMPLETE TASK
+    // COMPLETE / REOPEN TASK
     // =========================
 
-    document.addEventListener(
-        "change",
-        async event => {
+    async function toggleComplete(id) {
 
-            if (
-                !event.target.matches(
-                    '.task-card input[type="checkbox"]'
-                )
-            ) {
-                return;
-            }
+        const task =
+            allTasks.find(
+                item =>
+                    item._id === id
+            );
 
 
-            const card =
-                event.target.closest(
-                    ".task-card"
+        if (!task) return;
+
+
+        const newStatus =
+            task.status === "Completed"
+                ? "Pending"
+                : "Completed";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/tasks/${id}`,
+                    {
+
+                        method: "PUT",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                `Bearer ${token}`
+
+                        },
+
+                        body:
+                            JSON.stringify({
+                                status:
+                                    newStatus
+                            })
+
+                    }
                 );
 
 
-            if (!card) {
-                return;
-            }
+            const data =
+                await response.json();
 
 
-            const taskId =
-                card.dataset.id;
+            if (response.status === 401) {
 
-
-            if (!taskId) {
-                return;
-            }
-
-
-            const newStatus =
-                event.target.checked
-                    ? "Completed"
-                    : "Pending";
-
-
-            try {
-
-                const response =
-                    await fetch(
-                        `${API_URL}/api/tasks/${taskId}`,
-                        {
-                            method: "PUT",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json",
-
-                                "Authorization":
-                                    `Bearer ${token}`
-                            },
-
-                            body:
-                                JSON.stringify({
-                                    status:
-                                        newStatus
-                                })
-                        }
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                if (!data.success) {
-
-                    alert(
-                        data.message ||
-                        "Unable to update task."
-                    );
-
-                    return;
-
-                }
-
-
-                await loadTasks();
-
-
-            } catch (error) {
-
-                console.error(
-                    "Status update error:",
-                    error
+                localStorage.removeItem(
+                    "taskflow_token"
                 );
 
-                alert(
+                token = null;
+
+                await loginUser();
+
+                return;
+
+            }
+
+
+            if (!response.ok ||
+                !data.success) {
+
+                throw new Error(
+                    data.message ||
                     "Unable to update task."
                 );
 
             }
 
-        }
-    );
+
+            await loadTasks();
 
 
-    // =========================
-    // SEARCH & FILTER
-    // =========================
+        } catch (error) {
 
-    function applyFilters() {
-
-        if (
-            !searchInput ||
-            !statusFilter ||
-            !priorityFilter
-        ) {
-            return;
-        }
-
-
-        const searchText =
-            searchInput.value
-                .toLowerCase()
-                .trim();
-
-
-        const selectedStatus =
-            statusFilter.value;
-
-
-        const selectedPriority =
-            priorityFilter.value;
-
-
-        const tasks =
-            document.querySelectorAll(
-                ".task-list .task-card"
+            console.error(
+                "Complete task error:",
+                error
             );
 
+            alert(
+                error.message ||
+                "Unable to update task."
+            );
 
-        tasks.forEach(task => {
-
-            const title =
-                task.querySelector(
-                    ".task-top h3"
-                );
-
-
-            const description =
-                task.querySelector(
-                    ".task-content > p"
-                );
-
-
-            const priority =
-                task.dataset.priority
-                    ? task.dataset.priority.toLowerCase()
-                    : "medium";
-
-
-            const status =
-                task.dataset.status
-                    ? task.dataset.status.toLowerCase()
-                    : "pending";
-
-
-            if (!title || !description) {
-                return;
-            }
-
-
-            const titleText =
-                title.textContent
-                    .toLowerCase();
-
-
-            const descriptionText =
-                description.textContent
-                    .toLowerCase();
-
-
-            const matchesSearch =
-                titleText.includes(
-                    searchText
-                ) ||
-                descriptionText.includes(
-                    searchText
-                );
-
-
-            const matchesStatus =
-                selectedStatus === "all" ||
-                status === selectedStatus;
-
-
-            const matchesPriority =
-                selectedPriority === "all" ||
-                priority === selectedPriority;
-
-
-            task.style.display =
-                matchesSearch &&
-                matchesStatus &&
-                matchesPriority
-                    ? "flex"
-                    : "none";
-
-        });
+        }
 
     }
 
+
+    // =========================
+    // UPDATE STATS
+    // =========================
+
+    function updateStats() {
+
+        const total =
+            allTasks.length;
+
+
+        const completed =
+            allTasks.filter(
+                task =>
+                    task.status ===
+                    "Completed"
+            ).length;
+
+
+        const pending =
+            allTasks.filter(
+                task =>
+                    task.status ===
+                    "Pending"
+            ).length;
+
+
+        const inProgress =
+            allTasks.filter(
+                task =>
+                    task.status ===
+                    "In Progress"
+            ).length;
+
+
+        const important =
+            allTasks.filter(
+                task =>
+                    task.priority ===
+                    "High"
+            ).length;
+
+
+        const totalElement =
+            document.getElementById(
+                "total-tasks"
+            );
+
+
+        const completedElement =
+            document.getElementById(
+                "completed-tasks"
+            );
+
+
+        const pendingElement =
+            document.getElementById(
+                "pending-tasks"
+            );
+
+
+        const progressElement =
+            document.getElementById(
+                "progress-tasks"
+            );
+
+
+        const importantElement =
+            document.getElementById(
+                "important-tasks"
+            );
+
+
+        if (totalElement) {
+
+            totalElement.textContent =
+                total;
+
+        }
+
+
+        if (completedElement) {
+
+            completedElement.textContent =
+                completed;
+
+        }
+
+
+        if (pendingElement) {
+
+            pendingElement.textContent =
+                pending;
+
+        }
+
+
+        if (progressElement) {
+
+            progressElement.textContent =
+                inProgress;
+
+        }
+
+
+        if (importantElement) {
+
+            importantElement.textContent =
+                important;
+
+        }
+
+
+        renderSpecialSections();
+
+    }
+
+
+    // =========================
+    // SPECIAL SECTIONS
+    // =========================
+
+    function renderSpecialSections() {
+
+        const importantList =
+            document.getElementById(
+                "important-list"
+            );
+
+
+        const completedList =
+            document.getElementById(
+                "completed-list"
+            );
+
+
+        if (importantList) {
+
+            const importantTasks =
+                allTasks.filter(
+                    task =>
+                        task.priority ===
+                        "High"
+                );
+
+
+            importantList.innerHTML =
+                importantTasks.length
+                    ? importantTasks
+                        .map(task =>
+                            createTaskHTML(task)
+                        )
+                        .join("")
+                    : `
+                        <div class="empty-state">
+                            <h3>No important tasks</h3>
+                            <p>
+                                High priority tasks will appear here.
+                            </p>
+                        </div>
+                    `;
+
+        }
+
+
+        if (completedList) {
+
+            const completedTasks =
+                allTasks.filter(
+                    task =>
+                        task.status ===
+                        "Completed"
+                );
+
+
+            completedList.innerHTML =
+                completedTasks.length
+                    ? completedTasks
+                        .map(task =>
+                            createTaskHTML(task)
+                        )
+                        .join("")
+                    : `
+                        <div class="empty-state">
+                            <h3>No completed tasks</h3>
+                            <p>
+                                Completed tasks will appear here.
+                            </p>
+                        </div>
+                    `;
+
+        }
+
+
+        document
+            .querySelectorAll(
+                "#important-list .delete-task, #important-list .edit-task, #important-list .complete-task, #completed-list .delete-task, #completed-list .edit-task, #completed-list .complete-task"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const id =
+                            button.dataset.id;
+
+
+                        if (
+                            button.classList.contains(
+                                "delete-task"
+                            )
+                        ) {
+
+                            deleteTask(id);
+
+                        } else if (
+                            button.classList.contains(
+                                "edit-task"
+                            )
+                        ) {
+
+                            openEditModal(id);
+
+                        } else {
+
+                            toggleComplete(id);
+
+                        }
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    // =========================
+    // SEARCH
+    // =========================
 
     if (searchInput) {
 
         searchInput.addEventListener(
             "input",
-            applyFilters
+            renderTasks
         );
 
     }
 
+
+    // =========================
+    // STATUS FILTER
+    // =========================
 
     if (statusFilter) {
 
         statusFilter.addEventListener(
             "change",
-            applyFilters
+            renderTasks
         );
 
     }
 
 
+    // =========================
+    // PRIORITY FILTER
+    // =========================
+
     if (priorityFilter) {
 
         priorityFilter.addEventListener(
             "change",
-            applyFilters
+            renderTasks
         );
 
     }
@@ -1679,36 +1612,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         logoutBtn.addEventListener(
             "click",
-            event => {
-
-                event.preventDefault();
-
-
-                const confirmLogout =
-                    confirm(
-                        "Are you sure you want to logout?"
-                    );
-
-
-                if (!confirmLogout) {
-                    return;
-                }
-
+            () => {
 
                 localStorage.removeItem(
                     "taskflow_token"
                 );
 
-
                 token = null;
 
-                allTasks = [];
-
-
                 alert(
-                    "You have been logged out."
+                    "Logged out successfully."
                 );
-
 
                 location.reload();
 
@@ -1719,7 +1633,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // START APPLICATION
+    // START APP
     // =========================
 
     showSection("dashboard");
