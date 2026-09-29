@@ -848,7 +848,7 @@ body {
     z-index: 1000; 
 } 
  
-.modal.show { 
+.modal.active { 
     display: flex; 
 } 
  
