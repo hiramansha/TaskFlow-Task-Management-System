@@ -4,9 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // API & LOGIN
     // =========================
 
-    const API_URL =
-        "https://vigilant-garbanzo-wrvr9xvwvx7rcg99v-3000.app.github.dev";
-
+const API_URL =
+    "https://cloudflare-backend.23-st-028.workers.dev";
     let token = localStorage.getItem("taskflow_token");
 
     let allTasks = [];
