@@ -1682,3 +1682,130 @@ body {
         width: 100%;
     }
 }
+/* =========================================
+   TASK CARD CONTENT FIX
+========================================= */
+
+.task-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+.task-card-top > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-card-top h3 {
+    margin: 0 0 8px;
+}
+
+.task-card-top p {
+    margin: 0;
+}
+
+.priority-badge,
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.priority-badge.high {
+    background: #FEE2E2;
+    color: #B91C1C;
+}
+
+.priority-badge.medium {
+    background: #FEF3C7;
+    color: #B45309;
+}
+
+.priority-badge.low {
+    background: #E0F2FE;
+    color: #0369A1;
+}
+
+.status-badge.pending {
+    background: #FEF3C7;
+    color: #B45309;
+}
+
+.status-badge.progress {
+    background: #E0F2FE;
+    color: #0369A1;
+}
+
+.status-badge.completed {
+    background: #D1FAE5;
+    color: #047857;
+}
+
+.task-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 16px;
+    width: 100%;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.task-footer .task-actions {
+    margin-top: 0;
+    display: flex;
+    gap: 8px;
+}
+
+.task-footer .task-actions button {
+    width: auto;
+    min-width: 100px;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 13px;
+}
+
+.delete-task {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--white);
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.delete-task:hover {
+    background: #FEF2F2;
+    border-color: #FECACA;
+}
+
+@media (max-width: 600px) {
+    .task-card-top {
+        gap: 12px;
+    }
+
+    .task-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .task-footer .task-actions {
+        width: 100%;
+    }
+
+    .task-footer .task-actions button {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
