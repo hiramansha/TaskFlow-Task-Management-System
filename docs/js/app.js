@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("task-due-date");
 
     const addTaskBtn =
-        document.getElementById("add-task-btn");
+        document.getElementById("open-modal");
 
     const closeModalBtn =
         document.getElementById("close-modal");
