@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Task Management System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>Task<span>Flow</span></h2>
+            <p>Task Management</p>
+        </div>
+
+        <nav class="nav-links">
+
+            <a href="#" class="nav-link active" data-section="dashboard">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="nav-link" data-section="tasks">
+                <span>📝</span>
+                My Tasks
+            </a>
+
+            <a href="#" class="nav-link" data-section="important">
+                <span>⭐</span>
+                Important
+            </a>
+
+            <a href="#" class="nav-link" data-section="completed">
+                <span>✅</span>
+                Completed
+            </a>
+
+            <a href="#" class="nav-link" data-section="settings">
+                <span>⚙️</span>
+                Settings
+            </a>
+
+            <a href="#" class="nav-link" id="logout-btn">
+                <span>🚪</span>
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+
+        <!-- =========================
+             TOP BAR
+        ========================== -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <h1 class="page-title">
+                    Dashboard
+                </h1>
+
+                <p class="page-subtitle">
+                    Manage your tasks and stay productive.
+                </p>
+
+            </div>
+
+
+            <div class="profile-info">
+
+                <div class="profile-avatar">
+                    HM
+                </div>
+
+                <div class="profile-details">
+
+                    <strong>
+                        Hira Mansha
+                    </strong>
+
+                    <span>
+                        Web Developer
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             DASHBOARD
+        ========================== -->
+
+        <section id="dashboard-section"
+                 class="content-section">
+
+            <div class="stats-grid">
+
+                <!-- TOTAL -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📋
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            Total Tasks
+                        </span>
+
+                        <h3 id="total-tasks">
+                            0
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PENDING -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ⏳
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            Pending
+                        </span>
+
+                        <h3 id="pending-tasks">
+                            0
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <!-- IN PROGRESS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🔄
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            In Progress
+                        </span>
+
+                        <h3 id="progress-tasks">
+                            0
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMPLETED -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ✅
+                    </div>
+
+                    <div class="stat-content">
+
+                        <span>
+                            Completed
+                        </span>
+
+                        <h3 id="completed-tasks">
+                            0
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             MY TASKS
+        ========================== -->
+
+        <section id="tasks-section"
+                 class="content-section">
+
+            <div class="section-header">
+
+                <div>
+                    <!-- Main heading is shown in TOPBAR -->
+                </div>
+
+                <button
+                    id="open-modal"
+                    class="add-task-btn"
+                    type="button">
+
+                    + Add New Task
+
+                </button>
+
+            </div>
+
+
+            <!-- SEARCH & FILTERS -->
+
+            <div class="task-tools">
+
+                <div class="search-box">
+
+                    <span>
+                        🔍
+                    </span>
+
+                    <input
+                        type="text"
+                        id="task-search"
+                        placeholder="Search tasks..."
+                    >
+
+                </div>
+
+
+                <select id="status-filter">
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="pending">
+                        Pending
+                    </option>
+
+                    <option value="progress">
+                        In Progress
+                    </option>
+
+                    <option value="completed">
+                        Completed
+                    </option>
+
+                </select>
+
+
+                <select id="priority-filter">
+
+                    <option value="all">
+                        All Priority
+                    </option>
+
+                    <option value="low">
+                        Low
+                    </option>
+
+                    <option value="medium">
+                        Medium
+                    </option>
+
+                    <option value="high">
+                        High
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- TASK LIST -->
+
+            <div class="task-list">
+
+                <!-- Tasks will be loaded from MongoDB -->
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             IMPORTANT TASKS
+        ========================== -->
+
+        <section id="important-section"
+                 class="content-section"
+                 style="display: none;">
+
+            <div class="section-header">
+
+                <div>
+                    <!-- Main heading is shown in TOPBAR -->
+                </div>
+
+            </div>
+
+
+            <div id="important-task-list"
+                 class="task-list">
+
+                <!-- Important tasks loaded by JavaScript -->
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             COMPLETED TASKS
+        ========================== -->
+
+        <section id="completed-section"
+                 class="content-section"
+                 style="display: none;">
+
+            <div class="section-header">
+
+                <div>
+                    <!-- Main heading is shown in TOPBAR -->
+                </div>
+
+            </div>
+
+
+            <div id="completed-task-list"
+                 class="task-list">
+
+                <!-- Completed tasks loaded by JavaScript -->
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SETTINGS
+        ========================== -->
+
+        <section id="settings-section"
+                 class="content-section"
+                 style="display: none;">
+
+            <div class="settings-header">
+
+                <div>
+                    <!-- Main heading is shown in TOPBAR -->
+                </div>
+
+            </div>
+
+
+            <!-- ACCOUNT SETTINGS CARD -->
+
+            <div class="settings-card">
+
+                <div class="settings-card-header">
+
+                    <div class="settings-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Account Settings
+                        </h3>
+
+                        <p>
+                            Your TaskFlow account information
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-divider"></div>
+
+
+                <!-- PROFILE -->
+
+                <div class="profile-setting">
+
+                    <div class="profile-avatar large-avatar">
+                        HM
+                    </div>
+
+                    <div class="profile-setting-info">
+
+                        <span class="setting-label">
+                            Profile
+                        </span>
+
+                        <strong>
+                            Hira Mansha
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ROLE -->
+
+                <div class="setting-row">
+
+                    <div class="setting-row-icon">
+                        💼
+                    </div>
+
+                    <div class="setting-row-content">
+
+                        <span class="setting-label">
+                            Role
+                        </span>
+
+                        <strong>
+                            Web Developer
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPLICATION -->
+
+                <div class="setting-row">
+
+                    <div class="setting-row-icon">
+                        📱
+                    </div>
+
+                    <div class="setting-row-content">
+
+                        <span class="setting-label">
+                            Application
+                        </span>
+
+                        <strong>
+                            TaskFlow Task Management System
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         ADD / EDIT TASK MODAL
+    ========================== -->
+
+    <div id="task-modal"
+         class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2 id="modal-title">
+                    Add New Task
+                </h2>
+
+                <button
+                    id="close-modal"
+                    class="close-modal"
+                    type="button">
+
+                    &times;
+
+                </button>
+
+            </div>
+
+
+            <!-- TASK FORM -->
+
+            <form id="task-form">
+
+                <!-- TITLE -->
+
+                <div class="form-group">
+
+                    <label for="task-title">
+                        Task Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="task-title"
+                        placeholder="Enter task title"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="task-description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="task-description"
+                        rows="4"
+                        placeholder="Enter task description"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- PRIORITY -->
+
+                <div class="form-group">
+
+                    <label for="task-priority">
+                        Priority
+                    </label>
+
+                    <select id="task-priority">
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option value="medium" selected>
+                            Medium
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DUE DATE -->
+
+                <div class="form-group">
+
+                    <label for="task-date">
+                        Due Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="task-date"
+                    >
+
+                </div>
+
+
+                <!-- FORM BUTTONS -->
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        id="cancel-modal"
+                        class="cancel-btn">
+
+                        Cancel
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="save-btn">
+
+                        Add Task
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
+
