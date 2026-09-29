@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================
 
     const taskList =
-        document.getElementById("task-list");
+        document.querySelector(".task-list");
 
     const searchInput =
         document.getElementById("search-input");
