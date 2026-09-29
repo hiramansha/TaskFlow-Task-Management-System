@@ -87,8 +87,18 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
 
+        const sectionIdMap = {
+            dashboard: "dashboard-section",
+            tasks: "tasks-section",
+            important: "important-section",
+            completed: "completed-section",
+            settings: "settings-section"
+        };
+
         const selectedSection =
-            document.getElementById(sectionName);
+            document.getElementById(
+                sectionIdMap[sectionName] || sectionName
+            );
 
         if (selectedSection) {
 
